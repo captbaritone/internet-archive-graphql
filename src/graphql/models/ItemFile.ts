@@ -57,6 +57,14 @@ export class ItemFile implements IFile {
   }
 
   /**
+   * The source of the file.
+   * @gqlField
+   */
+  source(): string {
+    return this.response.source;
+  }
+
+  /**
    * A URL to download the file. This URL is not CORS-enabled, so it may not be
    * accessible from a web browser.
    *
