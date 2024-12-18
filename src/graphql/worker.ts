@@ -8,6 +8,7 @@ const schema = getSchema();
 self.onmessage = async (event) => {
   const { data } = event;
   const params = JSON.parse(data);
+  console.log(params);
   const contextValue = new Ctx();
   const result = await graphql({
     schema,
@@ -16,9 +17,11 @@ self.onmessage = async (event) => {
     operationName: params.operationName,
     contextValue,
   });
-  result.extensions = {
-    ...result.extensions,
-    networkRequests: contextValue.networkRequests,
-  };
+  if (params.headers?.showNetworkRequests) {
+    result.extensions = {
+      ...result.extensions,
+      networkRequests: contextValue.networkRequests,
+    };
+  }
   self.postMessage(JSON.stringify(result));
 };
